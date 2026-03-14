@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-=======
 import os
->>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)
 from datetime import datetime
 from typing import Optional
 
 from src.genta.AbstractAssistant import AbstractAssistant
 
-<<<<<<< HEAD
-
-class DaynaAssistant(AbstractAssistant):
-=======
 DIR_DIARY = os.environ.get("DIR_DIARY")
 if not DIR_DIARY:
     raise EnvironmentError("DIR_DIARY environment variable is not set.")
@@ -38,36 +31,12 @@ class DaynaAssistant(AbstractAssistant):
         super().__init__()
         self._recent_files, self._recent_entries = _load_recent_entries()
 
->>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)
     @property
     def name(self) -> str:
         return "Dayna"
 
     @property
     def description(self) -> str:
-<<<<<<< HEAD
-        return "Diary Assistant — help you capture and reflect on your day"
-
-    @property
-    def system_prompt(self) -> str:
-        return (
-            "You are Dayna, a warm, encouraging, "
-            "and emotionally intelligent diary companion. "
-            "Your role is to gently draw out "
-            "the user's reflections on their day: "
-            "wins, struggles, feelings, moments of gratitude, "
-            "and anything that felt significant. "
-            "Ask one thoughtful follow-up question at a time "
-            "— never overwhelm the user. "
-            "Celebrate small victories warmly. "
-            "When the user shares difficulty, respond with "
-            "empathy and self-compassion, never judgement. "
-            "Your tone is like a trusted best friend "
-            "who genuinely wants to hear everything. "
-            "Do not summarise the conversation; "
-            "focus entirely on drawing out authentic reflection."
-        )
-=======
         return "Diary Assistant" " — reflect on your day through questions"
 
     @property
@@ -111,42 +80,10 @@ class DaynaAssistant(AbstractAssistant):
                 "Be concise and specific. No questions yet."
             )
         return "Hello"
->>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)
 
     @property
     def _compile_instruction(self) -> Optional[str]:
         return (
-<<<<<<< HEAD
-            "Based on the conversation so far, "
-<<<<<<< HEAD
-            "write a warm and authentic first-person diary entry "
-            "as if written by the user themselves. "
-            "Capture their voice, key moments, feelings, and "
-            "any lessons or gratitude expressed. "
-            "Write in flowing paragraphs, present-tense where "
-            "natural. Do not include a title "
-            "— start directly with the entry text."
-        )
-
-    def compile(self) -> Optional[str]:
-        content = super().compile()
-        if content is None:
-            return None
-        date_str = datetime.today().strftime("%Y-%m-%d")
-        filepath = self._save_output(
-            content, subdir="diary", filename=f"{date_str}.md"
-        )
-        self.console.print(f"\n[dim]Diary entry saved to {filepath}[/dim]\n")
-        return content
-=======
-            "write a warm and authentic first-person "
-            "diary entry as if written by the user. "
-            "Capture their voice, key moments, feelings, "
-            "and any lessons or gratitude expressed. "
-            "Write in flowing paragraphs. "
-            "Do not include a title "
-            "— start directly with the entry text."
-=======
             "Write a first-person diary entry using ONLY "
             "what the user actually said in this conversation. "
             "Do not invent emotions, events, or details "
@@ -158,7 +95,6 @@ class DaynaAssistant(AbstractAssistant):
             "Write in the user's own voice and natural "
             "phrasing. No title — start directly with "
             "the entry text."
->>>>>>> 68d817f (Refine diary entry instruction to ensure user voice and factual accuracy)
         )
 
     def run(self) -> None:
@@ -216,4 +152,3 @@ class DaynaAssistant(AbstractAssistant):
         self.console.print(
             f"[dim]{word_count} words · {char_count} characters[/dim]\n"
         )
->>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)

@@ -64,11 +64,8 @@ class AbstractAssistant(ABC):
             system=system,
             messages=self.messages,
         )
-<<<<<<< HEAD
-=======
         if not response.content:
             return ""
->>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)
         return response.content[0].text.strip()
 
     def _send(self, user_message: str) -> str:
@@ -171,13 +168,10 @@ class AbstractAssistant(ABC):
                 "No deliverable for this assistant.[/dim]\n"
             )
 
-<<<<<<< HEAD
-=======
     def _on_quit(self) -> None:
         """Called on quit/exit. Override for cleanup or saving."""
         pass
 
->>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)
     def run(self) -> None:
         self._print_welcome()
         greeting = self._send("Hello")
@@ -190,10 +184,7 @@ class AbstractAssistant(ABC):
                 continue
 
             if user_input.lower() in ("q", "x", "quit", "exit"):
-<<<<<<< HEAD
-=======
                 self._on_quit()
->>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)
                 self.console.print("\n[dim]Goodbye.[/dim]\n")
                 break
 
