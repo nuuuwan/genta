@@ -1,4 +1,6 @@
 import os
+import re
+import subprocess
 from datetime import datetime
 from typing import Optional
 
@@ -9,7 +11,7 @@ if not DIR_DIARY:
     raise EnvironmentError("DIR_DIARY environment variable is not set.")
 
 _N_RECENT = 3
-_DATE_FILE_RE = __import__("re").compile(r"^\d{4}-\d{2}-\d{2}\.md$")
+_DATE_FILE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
 
 
 def _load_recent_entries(n: int = _N_RECENT):
@@ -133,6 +135,4 @@ class DaynaAssistant(AbstractAssistant):
         self.console.print(
             f"[dim]{word_count} words · {char_count} characters[/dim]\n"
         )
-        import subprocess
-
         subprocess.Popen(["open", filepath])
