@@ -97,46 +97,14 @@ class DaynaAssistant(AbstractAssistant):
             "the entry text."
         )
 
-    def run(self) -> None:
-        self._print_welcome()
+    @property
+    def _greeting_seed(self) -> str:
+        return self._opening_seed
+
+    def _pre_run(self) -> None:
         if self._recent_files:
             names = ", ".join(self._recent_files)
             self.console.print(f"[dim]Context loaded from: {names}[/dim]\n")
-        greeting = self._send(self._opening_seed)
-        self._print_assistant(greeting)
-
-        from rich.prompt import Prompt
-
-        pending = ""
-        while True:
-            prompt = (
-                "\n[bold cyan]   ...[/bold cyan]"
-                if pending
-                else "\n[bold cyan]You[/bold cyan]"
-            )
-            user_input = Prompt.ask(prompt).strip()
-
-            if user_input == "//":
-                pending += "\n\n"
-                self.console.print()
-                continue
-
-            if not user_input:
-                continue
-
-            if user_input.lower() in ("q", "x", "quit", "exit"):
-                self._on_quit()
-                self.console.print("\n[dim]Goodbye.[/dim]\n")
-                break
-
-            if user_input.lower() in ("done", "finish"):
-                self._handle_done()
-                break
-
-            full_message = (pending + user_input).strip()
-            pending = ""
-            reply = self._send(full_message)
-            self._print_assistant(reply)
 
     def _append_diary_entry(self, content: str) -> str:
         os.makedirs(DIR_DIARY, exist_ok=True)

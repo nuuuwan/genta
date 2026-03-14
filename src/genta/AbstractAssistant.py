@@ -172,9 +172,19 @@ class AbstractAssistant(ABC):
         """Called on quit/exit. Override for cleanup or saving."""
         pass
 
+    @property
+    def _greeting_seed(self) -> str:
+        """Opening message sent to the LLM. Override to customise."""
+        return "Hello"
+
+    def _pre_run(self) -> None:
+        """Called before the greeting. Override for setup output."""
+        pass
+
     def run(self) -> None:
         self._print_welcome()
-        greeting = self._send("Hello")
+        self._pre_run()
+        greeting = self._send(self._greeting_seed)
         self._print_assistant(greeting)
 
         pending = ""
@@ -186,8 +196,10 @@ class AbstractAssistant(ABC):
             )
             user_input = Prompt.ask(prompt).strip()
 
-            if user_input == "//":
+            if "\\\\" in user_input or "//" in user_input:
                 pending += "\n\n"
+                print("pending...")
+                self.console.print()
                 self.console.print()
                 continue
 
