@@ -1,3 +1,4 @@
+import subprocess
 from datetime import datetime
 from typing import Optional
 
@@ -42,16 +43,30 @@ class AdaAssistant(AbstractAssistant):
     @property
     def _compile_instruction(self) -> Optional[str]:
         return (
-            "Based on the conversation, write a polished, "
-            "structured essay or outline that "
-            "captures the user's developed idea. Include: "
-            "a compelling opening, a clear thesis, "
-            "2–4 well-argued supporting points, "
-            "engagement with at least one counterargument, "
-            "and a concise conclusion. "
-            "Use Markdown formatting with headers. "
-            "Write in a confident, readable "
-            "academic-but-accessible style."
+            "Based on our conversation, write a focused essay "
+            "of around 800 words. "
+            "Structure it exactly as follows:\n\n"
+            "1. **Title** — clear and direct.\n"
+            "2. **Subtitle** — one sentence that sharpens "
+            "the title.\n"
+            "3. **Introduction** — under 200 characters. "
+            "Punchy enough to stop someone scrolling on "
+            "social media. No fluff.\n"
+            "4. **Five sections**, each with a short "
+            "subheading. Make each section earn its place: "
+            "one tight argument or insight per section.\n"
+            "5. **Conclusion** — engaging and memorable. "
+            "Leave the reader with something to think about.\n"
+            "6. **Appendix: References** — only if there are "
+            "real, specific sources worth citing. "
+            "Omit if not applicable.\n\n"
+            "Style rules:\n"
+            "- Succinct, informative, well-informed.\n"
+            "- No MBA jargon. No filler phrases like "
+            "'it is worth noting' or 'in conclusion'.\n"
+            "- Short sentences. Plain words. "
+            "If a simpler word exists, use it.\n"
+            "- Write in Markdown."
         )
 
     def compile(self) -> Optional[str]:
@@ -63,4 +78,8 @@ class AdaAssistant(AbstractAssistant):
             content, subdir="essays", filename=f"{timestamp}.md"
         )
         self.console.print(f"\n[dim]Essay saved to {filepath}[/dim]\n")
+        subprocess.Popen(["open", filepath])
         return content
+
+    def _on_quit(self) -> None:
+        self.compile()
