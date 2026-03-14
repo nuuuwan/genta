@@ -91,7 +91,21 @@ class AbstractAssistant(ABC):
         instruction = self._compile_instruction
         if not instruction or not self.messages:
             return None
-        return self._call_llm(extra_instruction=instruction)
+        # Anthropic requires the last message to be a user turn.
+        # Temporarily append the compile request without mutating history.
+        compile_messages = self.messages + [
+            {"role": "user", "content": instruction}
+        ]
+        system = self.system_prompt
+        response = self.client.messages.create(
+            model=self.MODEL,
+            max_tokens=8096,
+            system=system,
+            messages=compile_messages,
+        )
+        if not response.content:
+            return None
+        return response.content[0].text.strip()
 
     def _save_output(self, content: str, subdir: str, filename: str) -> str:
         """Save content to output/<subdir>/<filename>; return the path."""
