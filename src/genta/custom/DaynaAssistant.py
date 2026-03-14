@@ -15,7 +15,7 @@ DIR_DIARY = os.environ.get("DIR_DIARY")
 if not DIR_DIARY:
     raise EnvironmentError("DIR_DIARY environment variable is not set.")
 
-_N_RECENT = 1
+_N_RECENT = 3
 _DATE_FILE_RE = __import__("re").compile(r"^\d{4}-\d{2}-\d{2}\.md$")
 
 
@@ -105,9 +105,10 @@ class DaynaAssistant(AbstractAssistant):
             return (
                 "The user's recent diary entries are in "
                 "your system prompt. "
-                "Briefly summarise the key themes or "
-                "feelings from those entries in 2-3 "
-                "sentences — no questions yet."
+                "Summarise the key themes and feelings "
+                "from those entries as 3-5 bullet points. "
+                "Address the user directly as 'you'. "
+                "Be concise and specific. No questions yet."
             )
         return "Hello"
 >>>>>>> dfba8c6 (Add initial implementation of genta assistants and project structure)
