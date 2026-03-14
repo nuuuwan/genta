@@ -188,6 +188,7 @@ class AbstractAssistant(ABC):
 
             if user_input == "//":
                 pending += "\n\n"
+                self.console.print()
                 continue
 
             if not user_input:

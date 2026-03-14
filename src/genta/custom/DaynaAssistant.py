@@ -118,6 +118,7 @@ class DaynaAssistant(AbstractAssistant):
 
             if user_input == "//":
                 pending += "\n\n"
+                self.console.print()
                 continue
 
             if not user_input:
