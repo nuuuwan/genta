@@ -177,8 +177,18 @@ class AbstractAssistant(ABC):
         greeting = self._send("Hello")
         self._print_assistant(greeting)
 
+        pending = ""
         while True:
-            user_input = Prompt.ask("\n[bold cyan]You[/bold cyan]").strip()
+            prompt = (
+                "\n[bold cyan]   ...[/bold cyan]"
+                if pending
+                else "\n[bold cyan]You[/bold cyan]"
+            )
+            user_input = Prompt.ask(prompt).strip()
+
+            if user_input == "//":
+                pending += "\n\n"
+                continue
 
             if not user_input:
                 continue
@@ -192,5 +202,7 @@ class AbstractAssistant(ABC):
                 self._handle_done()
                 break
 
-            reply = self._send(user_input)
+            full_message = (pending + user_input).strip()
+            pending = ""
+            reply = self._send(full_message)
             self._print_assistant(reply)
