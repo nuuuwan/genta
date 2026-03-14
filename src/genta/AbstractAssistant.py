@@ -198,8 +198,6 @@ class AbstractAssistant(ABC):
 
             if "\\\\" in user_input or "//" in user_input:
                 pending += "\n\n"
-                print("pending...")
-                self.console.print()
                 self.console.print()
                 continue
 
