@@ -116,6 +116,7 @@ class DaynaAssistant(AbstractAssistant):
     @property
     def _compile_instruction(self) -> Optional[str]:
         return (
+<<<<<<< HEAD
             "Based on the conversation so far, "
 <<<<<<< HEAD
             "write a warm and authentic first-person diary entry "
@@ -145,6 +146,19 @@ class DaynaAssistant(AbstractAssistant):
             "Write in flowing paragraphs. "
             "Do not include a title "
             "— start directly with the entry text."
+=======
+            "Write a first-person diary entry using ONLY "
+            "what the user actually said in this conversation. "
+            "Do not invent emotions, events, or details "
+            "they did not mention. "
+            "Where a little context genuinely helps "
+            "the sentence make sense, add it in square "
+            "brackets, e.g. [a colleague] or [that morning]. "
+            "Keep additions minimal and factual. "
+            "Write in the user's own voice and natural "
+            "phrasing. No title — start directly with "
+            "the entry text."
+>>>>>>> 68d817f (Refine diary entry instruction to ensure user voice and factual accuracy)
         )
 
     def run(self) -> None:
