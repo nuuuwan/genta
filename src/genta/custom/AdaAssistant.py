@@ -1,8 +1,26 @@
+import os
+import re
 import subprocess
-from datetime import datetime
 from typing import Optional
 
 from src.genta.AbstractAssistant import AbstractAssistant
+
+_DIR_DESKTOP = os.environ.get("DIR_DESKTOP")
+if not _DIR_DESKTOP:
+    raise EnvironmentError("DIR_DESKTOP environment variable is not set.")
+
+
+def _title_to_kebab(title: str, max_len: int = 32) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    return slug[:max_len].rstrip("-")
+
+
+def _extract_title(content: str) -> str:
+    for line in content.splitlines():
+        line = line.strip()
+        if line.startswith("# "):
+            return line[2:].strip()
+    return "essay"
 
 
 class AdaAssistant(AbstractAssistant):
@@ -73,10 +91,11 @@ class AdaAssistant(AbstractAssistant):
         content = super().compile()
         if content is None:
             return None
-        timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
-        filepath = self._save_output(
-            content, subdir="essays", filename=f"{timestamp}.md"
-        )
+        slug = _title_to_kebab(_extract_title(content))
+        filepath = os.path.join(_DIR_DESKTOP, f"{slug}.md")
+        os.makedirs(_DIR_DESKTOP, exist_ok=True)
+        with open(filepath, "w", encoding="utf-8") as fh:
+            fh.write(content)
         self.console.print(f"\n[dim]Essay saved to {filepath}[/dim]\n")
         subprocess.Popen(["open", filepath])
         return content
