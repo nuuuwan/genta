@@ -107,8 +107,18 @@ class DaynaAssistant(AbstractAssistant):
 
         from rich.prompt import Prompt
 
+        pending = ""
         while True:
-            user_input = Prompt.ask("\n[bold cyan]You[/bold cyan]").strip()
+            prompt = (
+                "\n[bold cyan]   ...[/bold cyan]"
+                if pending
+                else "\n[bold cyan]You[/bold cyan]"
+            )
+            user_input = Prompt.ask(prompt).strip()
+
+            if user_input == "//":
+                pending += "\n\n"
+                continue
 
             if not user_input:
                 continue
@@ -122,7 +132,9 @@ class DaynaAssistant(AbstractAssistant):
                 self._handle_done()
                 break
 
-            reply = self._send(user_input)
+            full_message = (pending + user_input).strip()
+            pending = ""
+            reply = self._send(full_message)
             self._print_assistant(reply)
 
     def _append_diary_entry(self, content: str) -> str:
@@ -152,3 +164,6 @@ class DaynaAssistant(AbstractAssistant):
         self.console.print(
             f"[dim]{word_count} words · {char_count} characters[/dim]\n"
         )
+        import subprocess
+
+        subprocess.Popen(["open", filepath])
