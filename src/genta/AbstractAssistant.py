@@ -127,7 +127,7 @@ class AbstractAssistant(ABC):
                 f"[dim]{self.description}[/dim]\n\n"
                 "[italic dim]Type [bold]done[/bold] to finish"
                 + suffix
-                + ", or [bold]quit[/bold] to exit"
+                + ", or [bold]q[/bold] to exit"
                 " without compiling.[/italic dim]",
                 border_style="cyan",
                 expand=False,
@@ -163,7 +163,7 @@ class AbstractAssistant(ABC):
             if not user_input:
                 continue
 
-            if user_input.lower() in ("quit", "exit"):
+            if user_input.lower() in ("q", "x", "quit", "exit"):
                 self.console.print("\n[dim]Goodbye.[/dim]\n")
                 break
 
