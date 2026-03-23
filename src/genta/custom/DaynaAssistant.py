@@ -71,6 +71,10 @@ class DaynaAssistant(AbstractAssistant):
         )
 
     @property
+    def _custom_context_reserved_chars(self) -> int:
+        return len(self._recent_entries)
+
+    @property
     def _opening_seed(self) -> str:
         if self._recent_entries:
             return (

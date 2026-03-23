@@ -144,6 +144,8 @@ class AdaAssistant(AbstractAssistant):
                 ),
             }
         )
+        if essay:
+            self._append_transcript(self.name, essay)
         return essay
 
     def _save_essay(self, content: str) -> str:
@@ -189,7 +191,8 @@ class AdaAssistant(AbstractAssistant):
     def run(self) -> None:
         self._print_welcome()
         self._pre_run()
-        greeting = self._send(self._greeting_seed)
+        self._load_history_context()
+        greeting = self._send(self._greeting_seed, from_user=False)
         self._print_assistant(greeting)
 
         pending = ""
@@ -221,6 +224,7 @@ class AdaAssistant(AbstractAssistant):
                 break
 
             if lowered == "write essay":
+                self._append_transcript("You", user_input)
                 essay = self._write_essay()
                 if not essay:
                     self.console.print(
