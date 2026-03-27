@@ -1,3 +1,0 @@
-rich
-anthropic
-utils-nuuuwan

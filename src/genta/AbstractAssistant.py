@@ -338,9 +338,7 @@ class AbstractAssistant(ABC):
         pending = ""
         while True:
             prompt = (
-                "\n[bold cyan]   ...[/bold cyan]"
-                if pending
-                else "\n[bold cyan]You[/bold cyan]"
+                "\n[bold cyan]You[/bold cyan]"
             )
             user_input = Prompt.ask(prompt).strip()
 
