@@ -337,9 +337,7 @@ class AbstractAssistant(ABC):
 
         pending = ""
         while True:
-            prompt = (
-                "\n[bold cyan]You[/bold cyan]"
-            )
+            prompt = "\n[bold cyan]You[/bold cyan]"
             user_input = Prompt.ask(prompt).strip()
 
             if "\\\\" in user_input or "//" in user_input:
